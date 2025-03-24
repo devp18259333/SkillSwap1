@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap Matchmaker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background-color: #ffffffcc;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 4rem auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 1.2s ease-in;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      animation: slideDown 1s ease;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #555;
+      animation: fadeIn 1.5s ease;
+    }
+    select, input, button {
+      margin: 1rem 0;
+      padding: 0.75rem;
+      font-size: 1rem;
+      width: 90%;
+      max-width: 450px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: 0.3s ease;
+    }
+    select:focus, input:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    button:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+    .result {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      color: #2c3e50;
+      padding: 1rem;
+      background-color: #ecf0f1;
+      border-radius: 8px;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 SkillSwap Matchmaker</h1>
+    <p>Answer the questions below to discover your perfect business match!</p>
+
+    <input type="text" id="name" placeholder="What's your first name?">
+
+    <select id="hobby">
+      <option value="">-- Choose a Hobby --</option>
+      <option value="tech">Tech & Coding</option>
+      <option value="creative">Art & Design</option>
+      <option value="writing">Writing & Communication</option>
+      <option value="math">Math & Finance</option>
+      <option value="organizing">Planning & Organizing</option>
+      <option value="media">Photography & Video</option>
+      <option value="gaming">Gaming & Game Design</option>
+      <option value="music">Music & Audio Editing</option>
+      <option value="sports">Sports & Coaching</option>
+    </select>
+
+    <select id="study">
+      <option value="">-- What do you like to study? --</option>
+      <option value="marketing">Marketing & Business</option>
+      <option value="finance">Finance & Economics</option>
+      <option value="it">Information Technology</option>
+      <option value="communications">Media & Communications</option>
+      <option value="arts">Creative Arts</option>
+      <option value="science">Science & Research</option>
+      <option value="education">Education & Teaching</option>
+      <option value="health">Health & Wellness</option>
+    </select>
+
+    <select id="skill">
+      <option value="">-- Choose Your Strongest Skill --</option>
+      <option value="social">Social Media & Content Creation</option>
+      <option value="design">Graphic Design & Branding</option>
+      <option value="finance">Bookkeeping & Financial Organization</option>
+      <option value="event">Event Planning & Coordination</option>
+      <option value="photo">Photography & Videography</option>
+      <option value="web">Web Design & Tech Help</option>
+      <option value="service">Customer Service & Communication</option>
+      <option value="editing">Video Editing & Animation</option>
+      <option value="writing">Copywriting & Journalism</option>
+      <option value="research">Research & Analysis</option>
+    </select>
+
+    <select id="goal">
+      <option value="">-- What’s your goal for the future? --</option>
+      <option value="entrepreneur">Start my own business</option>
+      <option value="career">Get a great career/job</option>
+      <option value="portfolio">Build my portfolio/resume</option>
+      <option value="learn">Learn from real-world experience</option>
+      <option value="connect">Meet new people and grow my network</option>
+      <option value="impact">Make a difference in my community</option>
+    </select>
+
+    <select id="personality">
+      <option value="">-- How would you describe yourself? --</option>
+      <option value="leader">A natural leader</option>
+      <option value="creator">A creative thinker</option>
+      <option value="helper">Helpful and empathetic</option>
+      <option value="problem">A problem-solver</option>
+      <option value="organizer">Super organized</option>
+      <option value="visionary">A big-picture visionary</option>
+      <option value="collaborator">Team player and collaborator</option>
+    </select>
+
+    <button onclick="getMatch()">💡 Find My Match!</button>
+    <div class="result" id="matchResult"></div>
+  </div>
+
+  <script>
+    function getMatch() {
+      const name = document.getElementById("name").value;
+      const hobby = document.getElementById("hobby").value;
+      const study = document.getElementById("study").value;
+      const skill = document.getElementById("skill").value;
+      const goal = document.getElementById("goal").value;
+      const personality = document.getElementById("personality").value;
+      const result = document.getElementById("matchResult");
+
+      if (!name || !hobby || !study || !skill || !goal || !personality) {
+        result.innerText = "❗ Please complete all questions to get your match.";
+        return;
+      }
+
+      let matchText = `${name}, as someone who enjoys ${hobby}, studies ${study}, and wants to ${goal}, you're already on the path to success!\n`;
+
+      switch(skill) {
+        case "social":
+          matchText += `🎯 Your creativity is a perfect match for helping local cafés and boutiques build their social media presence.`;
+          break;
+        case "design":
+          matchText += `🎨 With your eye for design and passion for creativity, you'd thrive helping local artists and handmade shop owners.`;
+          break;
+        case "finance":
+          matchText += `💼 Your skills in finance and organization would be a huge asset to small businesses needing help with bookkeeping and budgeting.`;
+          break;
+        case "event":
+          matchText += `📅 Your talent for planning and people skills would shine in community event organizing or nonprofit fundraisers.`;
+          break;
+        case "photo":
+          matchText += `📷 Your visual creativity makes you a great partner for photographers, creators, or small brands needing content.`;
+          break;
+        case "web":
+          matchText += `💻 You’d be a valuable resource for businesses that need help building websites or improving their tech setup.`;
+          break;
+        case "service":
+          matchText += `🗣️ Your communication skills and empathetic personality make you ideal for retail or customer-focused services.`;
+          break;
+        case "editing":
+          matchText += `🎬 You'd thrive in a creative space like a local media company or YouTube brand that needs strong editing skills.`;
+          break;
+        case "writing":
+          matchText += `📝 You’d be excellent helping businesses with blogs, newsletters, or brand messaging.`;
+          break;
+        case "research":
+          matchText += `🔍 Your analytical mindset would be great for supporting nonprofits, tech startups, or academic partners.`;
+          break;
+        default:
+          matchText = "❗ Please select a skill to find your match.";
+      }
+
+      result.innerText = matchText;
+    }
+  </script>
+</body>
+</html>
